@@ -87,8 +87,18 @@
   .cast-info{color:var(--text3);font-size:11px;}
   .cast-phone{color:var(--accent);font-size:11px;}
   .docs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  .docs-grid.primary-docs{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
   .doc-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:14px;transition:all .2s;cursor:pointer;}
   .doc-item:hover{border-color:var(--accent);background:var(--surface3);}
+  a.doc-item{color:inherit;text-decoration:none;}
+  a.doc-item:visited{color:inherit;}
+  a.doc-item:not([href]){cursor:default;}
+  a.doc-item:not([href]):hover{border-color:var(--border);background:var(--surface2);}
+  .doc-item.featured{padding:20px 22px;min-height:118px;}
+  .doc-item.featured .doc-icon{width:54px;height:54px;border-radius:12px;font-size:28px;}
+  .doc-item.featured .doc-name{font-size:15px;white-space:normal;line-height:1.45;}
+  .doc-item.featured .doc-sub{font-size:12px;line-height:1.5;}
+  .doc-item.featured .doc-badge{font-size:11px;padding:4px 10px;}
   .doc-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
   .doc-icon.pdf{background:rgba(230,57,80,.15)}.doc-icon.video{background:rgba(61,127,255,.15)}.doc-icon.doc{background:rgba(245,166,35,.15)}
   .doc-meta{flex:1;min-width:0;}
@@ -96,6 +106,12 @@
   .doc-sub{font-size:11px;color:var(--text3);}
   .doc-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;background:rgba(39,174,96,.15);color:var(--green);white-space:nowrap;}
   .doc-badge.new{background:rgba(230,57,80,.15);color:var(--accent2);}
+  @media (max-width:1024px){
+    .docs-grid.primary-docs{grid-template-columns:repeat(2,minmax(0,1fr));}
+  }
+  @media (max-width:680px){
+    .docs-grid,.docs-grid.primary-docs{grid-template-columns:1fr;}
+  }
   .contact-row{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;}
   .contact-role{font-size:11px;color:var(--text3);font-weight:600;min-width:90px;}
   .contact-name{font-size:13px;font-weight:700;color:var(--text);min-width:70px;}
@@ -224,11 +240,11 @@
   <div class="crew-grid">
     <div class="crew-card"><div class="crew-role">DIRECTOR</div><div class="crew-name">이성래</div></div>
     <div class="crew-card"><div class="crew-role">PRODUCER</div><div class="crew-name">장재진</div></div>
+    <div class="crew-card"><div class="crew-role">촬영감독</div><div class="crew-name">이영천</div></div>
     <div class="crew-card"><div class="crew-role">1ST AD</div><div class="crew-name">이장섭</div></div>
     <div class="crew-card"><div class="crew-role">제작부장</div><div class="crew-name">김성철</div></div>
     <div class="crew-card"><div class="crew-role">연출부 (인물)</div><div class="crew-name">김원석</div></div>
     <div class="crew-card"><div class="crew-role">연출부 (의상·분장)</div><div class="crew-name">나윤희</div></div>
-    <div class="crew-card"><div class="crew-role">촬영감독</div><div class="crew-name">이영천</div></div>
     <div class="crew-card"><div class="crew-role">촬영부</div><div class="crew-name" style="font-size:12px;line-height:1.8;">한승희&nbsp; 김주용<br>박용주&nbsp; 김예은</div></div>
     <div class="crew-card"><div class="crew-role">오디오감독</div><div class="crew-name">변태영</div></div>
   </div>
@@ -466,33 +482,62 @@
 <!-- TAB: 문서함 -->
 <div id="tab-docs" class="section">
   <div class="section-title">📁 최종자료</div>
-  <div class="docs-grid" style="margin-bottom:28px;">
-    <div class="doc-item"><div class="doc-icon pdf">📄</div><div class="doc-meta"><div class="doc-name">촬영계획표 1회차 (5.12 미사호수공원)</div><div class="doc-sub">최종자료 / 추미애 경기도지사 후보_촬영계획표_1회차.pdf</div></div><span class="doc-badge new">D-2</span></div>
-    <div class="doc-item"><div class="doc-icon pdf">📄</div><div class="doc-meta"><div class="doc-name">촬영계획표 2회차 (5.14 수원)</div><div class="doc-sub">최종자료 / 추미애 경기도지사 후보_촬영계획표_2회차.pdf</div></div><span class="doc-badge new">D-4</span></div>
-    <div class="doc-item"><div class="doc-icon pdf">📋</div><div class="doc-meta"><div class="doc-name">TV광고 스토리보드 v2 (최신)</div><div class="doc-sub">최종자료 / 260509-추후보_TV광고 스토리보드.pdf</div></div><span class="doc-badge">최신</span></div>
-    <div class="doc-item"><div class="doc-icon pdf">✏️</div><div class="doc-meta"><div class="doc-name">스토리보드 수정 요청사항 (0510)</div><div class="doc-sub">최종자료 / 260510 스토리보드 수정 요청사항.pdf</div></div><span class="doc-badge new">NEW</span></div>
-    <div class="doc-item"><div class="doc-icon pdf">🎭</div><div class="doc-meta"><div class="doc-name">보조출연자 최종정보 (0510)</div><div class="doc-sub">최종자료 / 추미애후보_CF보조출연자_최종정보_0510.pdf</div></div><span class="doc-badge new">확정</span></div>
-    <div class="doc-item"><div class="doc-icon video">🎬</div><div class="doc-meta"><div class="doc-name">프리비즈 영상</div><div class="doc-sub">최종자료 / 추후보CF_PREVIS.m4v</div></div><span class="doc-badge">영상</span></div>
-  </div>
-  <div class="section-title">📂 문서자료</div>
-  <div class="docs-grid" style="margin-bottom:28px;">
-    <div class="doc-item"><div class="doc-icon pdf">💡</div><div class="doc-meta"><div class="doc-name">CF기획안 (260421) — A안·B안</div><div class="doc-sub">문서자료 / [21그램]260421_CF기획안.pdf</div></div><span class="doc-badge">기획</span></div>
-    <div class="doc-item"><div class="doc-icon pdf">📐</div><div class="doc-meta"><div class="doc-name">스토리보드 (260501 최종본)</div><div class="doc-sub">문서자료 / [21그램]260501_스토리보드.pdf</div></div><span class="doc-badge">참고</span></div>
-    <div class="doc-item"><div class="doc-icon pdf">🗺️</div><div class="doc-meta"><div class="doc-name">헌팅리포트 (하남)</div><div class="doc-sub">문서자료 / 헌팅리포트(하남).pdf</div></div><span class="doc-badge">로케</span></div>
-    <div class="doc-item"><div class="doc-icon pdf">📰</div><div class="doc-meta"><div class="doc-name">(대외용) 추미애 홍보 기획</div><div class="doc-sub">문서자료 / (대외용) 추미애 홍보 기획.pdf</div></div><span class="doc-badge">홍보</span></div>
-    <div class="doc-item"><div class="doc-icon doc">📝</div><div class="doc-meta"><div class="doc-name">회의록 추미애CF (0430)</div><div class="doc-sub">회의록_추미애CF_0430.docx / .pdf</div></div><span class="doc-badge">회의</span></div>
-    <div class="doc-item"><div class="doc-icon doc">🗺️</div><div class="doc-meta"><div class="doc-name">로케이션 1차 정리</div><div class="doc-sub">로케이션 / 로케이션_1차정리.pptx</div></div><span class="doc-badge">로케</span></div>
+  <div class="docs-grid primary-docs" style="margin-bottom:28px;">
+    <a class="doc-item featured" data-doc="shoot-plan-1"><div class="doc-icon pdf">📄</div><div class="doc-meta"><div class="doc-name">촬영계획표 1회차 (5.12 미사호수공원)</div><div class="doc-sub">최종자료 / 추미애 경기도지사 후보_촬영계획표_1회차.pdf</div></div><span class="doc-badge new">D-2</span></a>
+    <a class="doc-item featured" data-doc="shoot-plan-2"><div class="doc-icon pdf">📄</div><div class="doc-meta"><div class="doc-name">촬영계획표 2회차 (5.14 수원)</div><div class="doc-sub">최종자료 / 추미애 경기도지사 후보_촬영계획표_2회차.pdf</div></div><span class="doc-badge new">D-4</span></a>
+    <a class="doc-item featured" data-doc="storyboard-v2"><div class="doc-icon pdf">📋</div><div class="doc-meta"><div class="doc-name">TV광고 스토리보드 v2 (최신)</div><div class="doc-sub">최종자료 / 260509-추후보_TV광고 스토리보드.pdf</div></div><span class="doc-badge">최신</span></a>
+    <a class="doc-item featured" data-doc="storyboard-feedback-0510"><div class="doc-icon pdf">✏️</div><div class="doc-meta"><div class="doc-name">스토리보드 수정 요청사항 (0510)</div><div class="doc-sub">최종자료 / 260510 스토리보드 수정 요청사항.pdf</div></div><span class="doc-badge new">NEW</span></a>
+    <a class="doc-item featured" data-doc="cast-final-0510"><div class="doc-icon pdf">🎭</div><div class="doc-meta"><div class="doc-name">보조출연자 최종정보 (0510)</div><div class="doc-sub">최종자료 / 추미애후보_CF보조출연자_최종정보_0510.pdf</div></div><span class="doc-badge new">확정</span></a>
+    <a class="doc-item featured" data-doc="previs-video"><div class="doc-icon video">🎬</div><div class="doc-meta"><div class="doc-name">프리비즈 영상</div><div class="doc-sub">최종자료 / 추후보CF_PREVIS.m4v</div></div><span class="doc-badge">영상</span></a>
   </div>
 </div>
 
 </div>
 <script>
+// Dropbox 공유 링크를 아래 객체에 붙여 넣으면 문서 카드는 원본(raw)으로 열립니다.
+const DOC_LINKS = {
+  'shoot-plan-1': 'https://www.dropbox.com/scl/fi/yoe2lx2qbm347vza8t5xf/_-_1.pdf?rlkey=5lyuwgnw6te7t4zroc15itzil&st=xdibs9fs&dl=0',
+  'shoot-plan-2': 'https://www.dropbox.com/scl/fi/slt93d73tdh0dx17xb47x/_-_2.pdf?rlkey=b6cyzuib8jaq374x21rmimihx&st=bypxdawr&dl=0',
+  'storyboard-v2': 'https://www.dropbox.com/scl/fi/78b9su7099xy5740ockrk/260509-_TV.pdf?rlkey=fkxgufir0gtvub3jp7kowadda&st=ip9vpm6n&dl=0',
+  'storyboard-feedback-0510': 'https://www.dropbox.com/scl/fi/hrkneao5736h10zqk50yj/260510.pdf?rlkey=612n0n3pg6451qofs8day3z7l&st=yrrig9kz&dl=0',
+  'cast-final-0510': 'https://www.dropbox.com/scl/fi/jnwta2ja2tlwvpx1wm0qm/_CF-_-_0510.pdf?rlkey=czvcbs48v3gczu8cfk60yl7vd&st=0e10sr0k&dl=0',
+  'previs-video': 'https://www.dropbox.com/scl/fi/npa09rotdnboalu7hk49t/CF_PREVIS.m4v?rlkey=ciiakwtxel2sk4pobri4bbdbb&st=hdetyiou&dl=0'
+};
+
+function toDropboxRawUrl(url){
+  const next = new URL(url);
+  next.searchParams.delete('dl');
+  next.searchParams.set('raw', '1');
+  return next.toString();
+}
+
+function toDropboxDownloadUrl(url){
+  const next = new URL(url);
+  next.searchParams.delete('raw');
+  next.searchParams.set('dl', '1');
+  return next.toString();
+}
+
+function hydrateDocLinks(){
+  document.querySelectorAll('[data-doc]').forEach(item=>{
+    const url = DOC_LINKS[item.dataset.doc];
+    if(!url) return;
+    item.href = toDropboxRawUrl(url);
+    item.target = '_blank';
+    item.rel = 'noopener noreferrer';
+    item.title = '클릭하면 원본이 열리고, 브라우저에서 다운로드할 수 있습니다.';
+    item.dataset.downloadUrl = toDropboxDownloadUrl(url);
+  });
+}
+
 function showTab(id,btn){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
 }
+
+hydrateDocLinks();
 </script>
 </body>
 </html>
