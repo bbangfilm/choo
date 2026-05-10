@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>추미애 후보 TV CF 대시보드 | 21그램</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap');
+  :root{--bg:#0c0f14;--surface:#141820;--surface2:#1c2230;--surface3:#242d3e;--border:#2a3347;--accent:#3d7fff;--accent2:#e63950;--gold:#f5a623;--green:#27ae60;--text:#e8edf5;--text2:#8b9ab5;--text3:#5c6b85;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;}
+  .header{background:linear-gradient(135deg,#0d1829 0%,#111c2e 50%,#0a1520 100%);border-bottom:1px solid var(--border);padding:28px 40px 24px;position:sticky;top:0;z-index:100;}
+  .header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+  .badge-21g{background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;letter-spacing:.05em;}
+  .header-title{font-size:22px;font-weight:900;color:#fff;letter-spacing:-.02em;}
+  .header-sub{font-size:12px;color:var(--text2);margin-top:3px;font-weight:400;}
+  .today-label{font-size:11px;color:var(--text3);font-weight:500;margin-bottom:2px;}
+  .today-date{font-size:15px;font-weight:700;color:var(--text2);}
+  .stats-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 40px;}
+  .stats-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);}
+  .stat{padding:20px 24px;border-right:1px solid var(--border);text-align:center;}
+  .stat:last-child{border-right:none;}
+  .stat-value{font-size:32px;font-weight:900;line-height:1;margin-bottom:6px;}
+  .stat-value.red{color:var(--accent2)}.stat-value.blue{color:var(--accent)}.stat-value.gold{color:var(--gold)}.stat-value.green{color:var(--green)}
+  .stat-label{font-size:11px;color:var(--text3);font-weight:500;letter-spacing:.05em;}
+  .tabs-wrap{background:var(--surface);border-bottom:1px solid var(--border);padding:0 40px;}
+  .tabs-inner{max-width:1200px;margin:0 auto;display:flex;}
+  .tab-btn{padding:14px 22px;font-size:13px;font-weight:600;color:var(--text3);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;transition:all .2s;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;}
+  .tab-btn:hover{color:var(--text2)}.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .main{max-width:1200px;margin:0 auto;padding:32px 40px 60px;}
+  .section{display:none}.section.active{display:block}
+  .section-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+  .section-title::before{content:'';display:block;width:3px;height:16px;background:var(--accent);border-radius:2px;}
+  .timeline{position:relative;padding-left:24px;}
+  .timeline::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:var(--border);border-radius:1px;}
+  .tl-group{margin-bottom:32px;}
+  .tl-phase{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;}
+  .tl-item{position:relative;display:flex;gap:16px;margin-bottom:12px;align-items:flex-start;}
+  .tl-dot{position:absolute;left:-20px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--border);border:2px solid var(--bg);flex-shrink:0;}
+  .tl-dot.done{background:var(--green)}.tl-dot.today{background:var(--gold);box-shadow:0 0 8px rgba(245,166,35,.6)}.tl-dot.shoot{background:var(--accent2);box-shadow:0 0 8px rgba(230,57,80,.5)}
+  .tl-date{font-size:12px;color:var(--text3);font-weight:600;min-width:90px;padding-top:1px;}
+  .tl-card{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;}
+  .tl-card.shoot-card{border-color:rgba(230,57,80,.4);background:rgba(230,57,80,.06);}
+  .tl-card.today-card{border-color:rgba(245,166,35,.4);background:rgba(245,166,35,.05);}
+  .tl-card-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;}
+  .tl-card-desc{font-size:12px;color:var(--text2);}
+  .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-right:6px;margin-bottom:4px;}
+  .tag-shoot{background:rgba(230,57,80,.2);color:#e63950}.tag-doc{background:rgba(61,127,255,.15);color:#5d99ff}.tag-today{background:rgba(245,166,35,.2);color:#f5a623}.tag-done{background:rgba(39,174,96,.15);color:#27ae60}
+  .shoot-card-main{background:var(--surface2);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .shoot-header{padding:18px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .shoot-round{font-size:11px;font-weight:700;color:var(--accent2);letter-spacing:.05em;}
+  .shoot-date-big{font-size:20px;font-weight:900;color:#fff;margin:4px 0 2px;}
+  .shoot-loc{font-size:12px;color:var(--text2);}
+  .shoot-dday{background:var(--accent2);color:#fff;font-size:13px;font-weight:900;padding:6px 14px;border-radius:6px;}
+  .shoot-body{padding:16px 20px;}
+  .info-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:13px;}
+  .info-key{color:var(--text3);font-weight:600;min-width:60px;flex-shrink:0;}
+  .info-val{color:var(--text);}
+  .spot-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:12px;}
+  .spot-table th{background:var(--surface3);color:var(--text3);font-weight:600;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);}
+  .spot-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;}
+  .spot-table tr:last-child td{border-bottom:none}.spot-table td:first-child{font-weight:700;color:var(--text);}
+  .timetable-wrap{margin-top:24px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .timetable-header{padding:14px 20px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;}
+  .timetable-body{padding:20px;}
+  .tm-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+  .tm-label{font-size:12px;font-weight:600;color:var(--text2);min-width:90px;}
+  .tm-track{flex:1;height:28px;background:var(--surface3);border-radius:4px;position:relative;overflow:hidden;}
+  .tm-seg{position:absolute;top:0;bottom:0;border-radius:4px;display:flex;align-items:center;padding:0 8px;font-size:11px;font-weight:600;color:rgba(255,255,255,.9);white-space:nowrap;overflow:hidden;}
+  .tm-hours{display:flex;margin-top:4px;padding-left:102px;}
+  .tm-h{flex:1;font-size:10px;color:var(--text3);text-align:center;border-left:1px solid var(--border);padding-top:4px;}
+  .sb-item{background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent2);border-radius:8px;padding:14px 18px;margin-bottom:12px;}
+  .sb-num{font-size:11px;font-weight:700;color:var(--text3);margin-bottom:6px;letter-spacing:.05em;}
+  .sb-change{display:flex;align-items:flex-start;gap:8px;font-size:13px;}
+  .sb-from{flex:1;background:rgba(230,57,80,.1);border:1px solid rgba(230,57,80,.2);border-radius:6px;padding:8px 12px;color:#e6a0a7;}
+  .sb-arrow{font-size:16px;color:var(--text3);padding-top:8px;flex-shrink:0;}
+  .sb-to{flex:1;background:rgba(39,174,96,.08);border:1px solid rgba(39,174,96,.2);border-radius:6px;padding:8px 12px;color:#7ec8a0;}
+  .sb-type{font-size:10px;font-weight:700;color:var(--text3);margin-bottom:4px;letter-spacing:.08em;}
+  .cast-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .cast-group{background:var(--surface2);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  .cast-group-header{padding:12px 16px;background:var(--surface3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .cast-group-name{font-size:12px;font-weight:700;color:var(--text);}
+  .cast-group-spot{font-size:11px;color:var(--text3);font-weight:500;}
+  .cast-member{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:12px;}
+  .cast-member:last-child{border-bottom:none}
+  .cast-name{font-weight:600;color:var(--text);}
+  .cast-info{color:var(--text3);font-size:11px;}
+  .cast-phone{color:var(--accent);font-size:11px;}
+  .docs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  .doc-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:14px;transition:all .2s;cursor:pointer;}
+  .doc-item:hover{border-color:var(--accent);background:var(--surface3);}
+  .doc-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .doc-icon.pdf{background:rgba(230,57,80,.15)}.doc-icon.video{background:rgba(61,127,255,.15)}.doc-icon.doc{background:rgba(245,166,35,.15)}
+  .doc-meta{flex:1;min-width:0;}
+  .doc-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .doc-sub{font-size:11px;color:var(--text3);}
+  .doc-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;background:rgba(39,174,96,.15);color:var(--green);white-space:nowrap;}
+  .doc-badge.new{background:rgba(230,57,80,.15);color:var(--accent2);}
+  .contact-row{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;}
+  .contact-role{font-size:11px;color:var(--text3);font-weight:600;min-width:90px;}
+  .contact-name{font-size:13px;font-weight:700;color:var(--text);min-width:70px;}
+  .contact-phone{font-size:13px;color:var(--accent);font-weight:500;}
+  .concept-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px;}
+  .concept-tag{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.1em;margin-bottom:10px;}
+  .concept-headline{font-size:22px;font-weight:900;color:#fff;line-height:1.4;margin-bottom:12px;}
+  .concept-desc{font-size:13px;color:var(--text2);line-height:1.8;}
+  .divider{border:none;border-top:1px solid var(--border);margin:28px 0;}
+  .crew-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+  .crew-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;text-align:center;}
+  .crew-role{font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.08em;margin-bottom:6px;}
+  .crew-name{font-size:15px;font-weight:700;color:var(--text);}
+  .alert{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.3);border-radius:8px;padding:12px 16px;font-size:12px;color:var(--gold);margin-bottom:20px;display:flex;gap:10px;align-items:flex-start;}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:18px;">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+          <span class="badge-21g">21Grams</span>
+          <span style="color:var(--text3);font-size:12px;font-weight:500;">× 제작 현황</span>
+        </div>
+        <div class="header-title">추미애 경기지사 후보 TV CF</div>
+        <div class="header-sub">감독 이성래 &nbsp;|&nbsp; 프로듀서 장재진 &nbsp;|&nbsp; 제작 21그램</div>
+      </div>
+    </div>
+    <div style="text-align:right;">
+      <div class="today-label">오늘</div>
+      <div class="today-date">2026. 05. 10 (일)</div>
+    </div>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-value red">D-2</div><div class="stat-label">1회차 촬영 (5.12 화)</div></div>
+    <div class="stat"><div class="stat-value blue">D-4</div><div class="stat-label">2회차 촬영 (5.14 목)</div></div>
+    <div class="stat"><div class="stat-value gold">16</div><div class="stat-label">보조출연자 (명)</div></div>
+    <div class="stat"><div class="stat-value green">6</div><div class="stat-label">스토리보드 수정항목</div></div>
+  </div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs-inner">
+    <button class="tab-btn active" onclick="showTab('timeline',this)">📅 전체 일정</button>
+    <button class="tab-btn" onclick="showTab('shoot1',this)">🎬 1회차 촬영</button>
+    <button class="tab-btn" onclick="showTab('shoot2',this)">🎬 2회차 촬영</button>
+    <button class="tab-btn" onclick="showTab('storyboard',this)">✏️ 스토리보드 수정</button>
+    <button class="tab-btn" onclick="showTab('cast',this)">🎭 보조출연자</button>
+    <button class="tab-btn" onclick="showTab('docs',this)">📁 문서함</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- TAB: 전체 일정 -->
+<div id="tab-timeline" class="section active">
+  <div class="section-title">전체 제작 일정</div>
+  <div class="alert">⚡ 오늘은 <strong>2026년 5월 10일</strong>입니다. 1회차 촬영(5.12)까지 <strong>D-2</strong>, 2회차 촬영(5.14)까지 <strong>D-4</strong>입니다.</div>
+  <div class="timeline">
+    <div class="tl-group">
+      <div class="tl-phase">📋 기획 · 프리프로덕션</div>
+      <div class="tl-item">
+        <div class="tl-dot done"></div>
+        <div class="tl-date">4.21 (화)</div>
+        <div class="tl-card"><div class="tl-card-title"><span class="tag tag-done">완료</span>CF 기획안 제출</div><div class="tl-card-desc">[21그램] 추미애 경기지사 후보 방송광고 기획안 (A안·B안)</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot done"></div>
+        <div class="tl-date">4.27 (월)</div>
+        <div class="tl-card"><div class="tl-card-title"><span class="tag tag-done">완료</span>스토리보드 A안 제출</div><div class="tl-card-desc">[21그램] 260427_(A안)스토리보드 1차·2차</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot done"></div>
+        <div class="tl-date">4.30 (목)</div>
+        <div class="tl-card"><div class="tl-card-title"><span class="tag tag-done">완료</span>스토리보드 수정본 · 회의</div><div class="tl-card-desc">260430 스토리보드 수정 / 추미애CF 회의 (m4a 녹취)</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot done"></div>
+        <div class="tl-date">5.1 (금)</div>
+        <div class="tl-card"><div class="tl-card-title"><span class="tag tag-done">완료</span>스토리보드 최종본</div><div class="tl-card-desc">[21그램] 260501 스토리보드</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot done"></div>
+        <div class="tl-date">5.8 (금)</div>
+        <div class="tl-card"><div class="tl-card-title"><span class="tag tag-done">완료</span>TV광고 스토리보드 v1</div><div class="tl-card-desc">260508-추후보_TV광고 스토리보드</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot done"></div>
+        <div class="tl-date">5.9 (토)</div>
+        <div class="tl-card"><div class="tl-card-title"><span class="tag tag-done">완료</span>TV광고 스토리보드 v2 (최신)</div><div class="tl-card-desc">260509-추후보_TV광고 스토리보드</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot today"></div>
+        <div class="tl-date">5.10 (일)&nbsp;<span class="tag tag-today">오늘</span></div>
+        <div class="tl-card today-card"><div class="tl-card-title">🔔 스토리보드 수정 요청사항 전달</div><div class="tl-card-desc">자막 6건 수정 요청 · 보조출연자 최종 명단 확정 (16명)</div></div>
+      </div>
+    </div>
+    <div class="tl-group">
+      <div class="tl-phase">🎥 촬영</div>
+      <div class="tl-item">
+        <div class="tl-dot shoot"></div>
+        <div class="tl-date">5.12 (화)&nbsp;<span class="tag tag-shoot">D-2</span></div>
+        <div class="tl-card shoot-card"><div class="tl-card-title">🎬 1회차 촬영 — 미사호수공원 (하남)</div><div class="tl-card-desc">추미애 후보 단독 · 상업지구/주택지구 배경<br>집합 12:00 / 촬영 14:00~17:00 / 나레이션 녹음 16:30</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot shoot"></div>
+        <div class="tl-date">5.14 (목)&nbsp;<span class="tag tag-shoot">D-4</span></div>
+        <div class="tl-card shoot-card"><div class="tl-card-title">🎬 2회차 촬영 — 수원 4개 스팟</div><div class="tl-card-desc">광교호수공원 · 버스정류장 · 못골시장 · 삼성디지털시티<br>집합 08:00 / 촬영 09:00~18:00 / 보조출연자 16명</div></div>
+      </div>
+    </div>
+    <div class="tl-group">
+      <div class="tl-phase">🚀 납품</div>
+      <div class="tl-item">
+        <div class="tl-dot upcoming"></div>
+        <div class="tl-date">5.21 (목)&nbsp;<span class="tag tag-doc">D-11</span></div>
+        <div class="tl-card" style="border-color:rgba(61,127,255,.35);background:rgba(61,127,255,.05);"><div class="tl-card-title">📦 완성본 클라이언트 납품</div><div class="tl-card-desc">최종 편집 완성본 납품일</div></div>
+      </div>
+    </div>
+  </div>
+  <hr class="divider">
+  <div class="section-title">제작진</div>
+  <div class="crew-grid">
+    <div class="crew-card"><div class="crew-role">DIRECTOR</div><div class="crew-name">이성래</div></div>
+    <div class="crew-card"><div class="crew-role">PRODUCER</div><div class="crew-name">장재진</div></div>
+    <div class="crew-card"><div class="crew-role">1ST AD</div><div class="crew-name">이장섭</div></div>
+    <div class="crew-card"><div class="crew-role">제작부장</div><div class="crew-name">김성철</div></div>
+    <div class="crew-card"><div class="crew-role">연출부 (인물)</div><div class="crew-name">김원석</div></div>
+    <div class="crew-card"><div class="crew-role">연출부 (의상·분장)</div><div class="crew-name">나윤희</div></div>
+    <div class="crew-card"><div class="crew-role">촬영감독</div><div class="crew-name">이영천</div></div>
+    <div class="crew-card"><div class="crew-role">촬영부</div><div class="crew-name" style="font-size:12px;line-height:1.8;">한승희&nbsp; 김주용<br>박용주&nbsp; 김예은</div></div>
+    <div class="crew-card"><div class="crew-role">오디오감독</div><div class="crew-name">변태영</div></div>
+  </div>
+  <div class="section-title">현장 연락처</div>
+  <div class="contact-row"><div class="contact-role">조감독</div><div class="contact-name">이장섭</div><div class="contact-phone">010-3343-4292</div></div>
+  <div class="contact-row"><div class="contact-role">PD</div><div class="contact-name">장재진</div><div class="contact-phone">010-7141-6725</div></div>
+  <div class="contact-row"><div class="contact-role">제작부장</div><div class="contact-name">김성철</div><div class="contact-phone">010-9792-4999</div></div>
+  <div class="contact-row"><div class="contact-role">연출부 (인물)</div><div class="contact-name">김원석</div><div class="contact-phone">010-5883-9778</div></div>
+  <div class="contact-row"><div class="contact-role">연출부 (의상·분장)</div><div class="contact-name">나윤희</div><div class="contact-phone">010-7441-3203</div></div>
+</div>
+
+<!-- TAB: 1회차 -->
+<div id="tab-shoot1" class="section">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div class="section-title" style="margin-bottom:0;">1회차 촬영 계획</div>
+    <span class="shoot-dday">D-2</span>
+  </div>
+  <div class="shoot-card-main" style="margin-bottom:20px;">
+    <div class="shoot-header">
+      <div>
+        <div class="shoot-round">1ST SHOOT</div>
+        <div class="shoot-date-big">2026년 5월 12일 (화)</div>
+        <div class="shoot-loc">📍 미사호수공원 · 경기도 하남시 미사강변대로 150</div>
+      </div>
+      <div style="text-align:right;"><div style="font-size:11px;color:var(--text3);margin-bottom:6px;">일출/일몰</div><div style="font-size:13px;color:var(--text2);font-weight:600;">05:30 / 19:25</div></div>
+    </div>
+    <div class="shoot-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div>
+          <div class="info-row"><span class="info-key">집합</span><span class="info-val">12:00 · 미사강변 주차장 (2시간 무료)</span></div>
+          <div class="info-row"><span class="info-key">셋팅</span><span class="info-val">13:00</span></div>
+          <div class="info-row"><span class="info-key">스팟1</span><span class="info-val">14:00~ 상업지구 배경</span></div>
+          <div class="info-row"><span class="info-key">이동</span><span class="info-val">15:00</span></div>
+          <div class="info-row"><span class="info-key">스팟2</span><span class="info-val">15:30~ 주택지구 배경</span></div>
+          <div class="info-row"><span class="info-key">녹음</span><span class="info-val">16:30 (차량 내 진행)</span></div>
+          <div class="info-row"><span class="info-key">종료</span><span class="info-val">17:00</span></div>
+        </div>
+        <div>
+          <div class="info-row"><span class="info-key">출연</span><span class="info-val">추미애 후보 (단독)</span></div>
+          <div class="info-row"><span class="info-key">후보 도착</span><span class="info-val">14:00 미사강변 주차장</span></div>
+          <div class="info-row"><span class="info-key">미술·소품</span><span class="info-val">차양 파라솔, 테이블, 모니터</span></div>
+          <div class="info-row"><span class="info-key">분장</span><span class="info-val">나윤희 / 리터치 대기</span></div>
+          <div class="info-row"><span class="info-key">대역 의상</span><span class="info-val">익일(14일) 인수</span></div>
+          <div class="info-row"><span class="info-key">발전차</span><span class="info-val">날씨에 따라 결정</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-title">촬영 스팟</div>
+  <div class="shoot-card-main" style="margin-bottom:24px;">
+    <table class="spot-table">
+      <thead><tr><th>스팟</th><th>내용</th><th>시간대</th><th>등장인물</th><th>장소</th></tr></thead>
+      <tbody>
+        <tr><td>스팟 1</td><td>추미애 후보 단독<br>상업지구 배경</td><td>D / L</td><td>추미애 후보</td><td>미사호수공원 스팟1</td></tr>
+        <tr><td>스팟 2</td><td>추미애 후보 단독<br>주택지구 배경</td><td>D / L</td><td>추미애 후보</td><td>미사호수공원 스팟2</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="timetable-wrap">
+    <div class="timetable-header">⏱️ 타임테이블 — 5월 12일 (화)</div>
+    <div class="timetable-body">
+      <div class="tm-hours"><div class="tm-h">12시</div><div class="tm-h">13시</div><div class="tm-h">14시</div><div class="tm-h">15시</div><div class="tm-h">16시</div><div class="tm-h">17시</div></div>
+      <div style="height:8px;"></div>
+      <div class="tm-row"><div class="tm-label">집합·식사</div><div class="tm-track"><div class="tm-seg" style="left:0;width:16.7%;background:#3d5a7f;">집합·식사</div></div></div>
+      <div class="tm-row"><div class="tm-label">셋팅</div><div class="tm-track"><div class="tm-seg" style="left:16.7%;width:16.7%;background:#2d4a6a;">셋팅</div></div></div>
+      <div class="tm-row"><div class="tm-label">스팟1 촬영</div><div class="tm-track"><div class="tm-seg" style="left:33.3%;width:16.7%;background:#e63950;">스팟1 촬영</div></div></div>
+      <div class="tm-row"><div class="tm-label">이동·셋팅</div><div class="tm-track"><div class="tm-seg" style="left:50%;width:8.3%;background:#2d4a6a;">이동</div></div></div>
+      <div class="tm-row"><div class="tm-label">스팟2 촬영</div><div class="tm-track"><div class="tm-seg" style="left:58.3%;width:16.7%;background:#e63950;">스팟2 촬영</div></div></div>
+      <div class="tm-row"><div class="tm-label">나레이션 녹음</div><div class="tm-track"><div class="tm-seg" style="left:75%;width:8.3%;background:#f5a623;">NA 녹음</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: 2회차 -->
+<div id="tab-shoot2" class="section">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div class="section-title" style="margin-bottom:0;">2회차 촬영 계획</div>
+    <span class="shoot-dday" style="background:var(--accent);">D-4</span>
+  </div>
+  <div class="shoot-card-main" style="margin-bottom:20px;">
+    <div class="shoot-header">
+      <div>
+        <div class="shoot-round" style="color:var(--accent);">2ND SHOOT</div>
+        <div class="shoot-date-big">2026년 5월 14일 (목)</div>
+        <div class="shoot-loc">📍 수원 — 광교호수공원 · 버스정류장 · 못골시장 · 삼성디지털시티</div>
+      </div>
+      <div style="text-align:right;"><div style="font-size:11px;color:var(--text3);margin-bottom:6px;">일출/일몰</div><div style="font-size:13px;color:var(--text2);font-weight:600;">05:30 / 19:25</div></div>
+    </div>
+    <div class="shoot-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div>
+          <div class="info-row"><span class="info-key">집합</span><span class="info-val">08:00 · 조식 포함</span></div>
+          <div class="info-row"><span class="info-key">스팟1</span><span class="info-val">09:00~ 광교호수공원 (시니어)</span></div>
+          <div class="info-row"><span class="info-key">스팟2</span><span class="info-val">10:20~ 버스정류장 (청소년)</span></div>
+          <div class="info-row"><span class="info-key">스팟3</span><span class="info-val">13:30~ 못골시장 (상인·신혼부부·가족)</span></div>
+          <div class="info-row"><span class="info-key">스팟4</span><span class="info-val">17:00~ 삼성디지털시티 (취준생)</span></div>
+          <div class="info-row"><span class="info-key">종료</span><span class="info-val">18:00</span></div>
+        </div>
+        <div>
+          <div class="info-row"><span class="info-key">보조출연</span><span class="info-val">총 16명 / 6개 그룹</span></div>
+          <div class="info-row"><span class="info-key">워킹대역</span><span class="info-val">스팟 2·3 (컷 3,6,9,12)</span></div>
+          <div class="info-row"><span class="info-key">배역</span><span class="info-val">시니어·청소년·상인·신혼부부·가족·취준생</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-title">촬영 스팟 상세</div>
+  <div class="shoot-card-main" style="margin-bottom:24px;">
+    <table class="spot-table">
+      <thead><tr><th>스팟</th><th>장소</th><th>주소</th><th>배역</th><th>시간</th></tr></thead>
+      <tbody>
+        <tr><td>스팟 1</td><td>광교호수공원<br><span style="font-size:10px;color:var(--text3);">힐스테이트광교 주차</span></td><td>수원시 영통구 센트럴파크로 6</td><td>시니어 3명<br><span style="font-size:10px;color:var(--text3);">최병재·심덕구·송복례</span></td><td>09:00~<br>집합 08:30</td></tr>
+        <tr><td>스팟 2</td><td>신풍초 버스정류장</td><td>수원시 영통구 이의동 신풍초 정문</td><td>청소년 3명<br><span style="font-size:10px;color:var(--text3);">배수훈·김태하·정희수</span></td><td>10:20~<br>집합 10:00</td></tr>
+        <tr><td>스팟 3</td><td>못골종합시장<br>수원성중흥S-클래스</td><td>수원시 팔달구 지동 347-95</td><td>상인 3명 · 신혼부부 · 가족</td><td>13:30~<br>집합 13:00</td></tr>
+        <tr><td>스팟 4</td><td>삼성디지털시티 정문</td><td>수원시 영통구 삼성로 130</td><td>취준생 4명<br><span style="font-size:10px;color:var(--text3);">정지예·김민호·김경덕·김신양</span></td><td>17:00~<br>집합 16:45</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="timetable-wrap">
+    <div class="timetable-header">⏱️ 타임테이블 — 5월 14일 (목)</div>
+    <div class="timetable-body">
+      <div class="tm-hours"><div class="tm-h">08</div><div class="tm-h">09</div><div class="tm-h">10</div><div class="tm-h">11</div><div class="tm-h">12</div><div class="tm-h">13</div><div class="tm-h">14</div><div class="tm-h">15</div><div class="tm-h">16</div><div class="tm-h">17</div><div class="tm-h">18시</div></div>
+      <div style="height:8px;"></div>
+      <div class="tm-row"><div class="tm-label">집합·조식</div><div class="tm-track"><div class="tm-seg" style="left:0;width:9.1%;background:#2d4a6a;">집합</div></div></div>
+      <div class="tm-row"><div class="tm-label">스팟1 (시니어)</div><div class="tm-track"><div class="tm-seg" style="left:9.1%;width:13%;background:#e63950;">스팟1 광교</div></div></div>
+      <div class="tm-row"><div class="tm-label">스팟2 (청소년)</div><div class="tm-track"><div class="tm-seg" style="left:22.7%;width:14%;background:#3d7fff;">스팟2 버스정류장</div></div></div>
+      <div class="tm-row"><div class="tm-label">이동·중식</div><div class="tm-track"><div class="tm-seg" style="left:36.4%;width:12%;background:#2d4a6a;">이동·중식</div></div></div>
+      <div class="tm-row"><div class="tm-label">스팟3 (시장)</div><div class="tm-track"><div class="tm-seg" style="left:50%;width:27.3%;background:#9b59b6;">스팟3 못골시장 (상인·신혼·가족)</div></div></div>
+      <div class="tm-row"><div class="tm-label">스팟4 (취준생)</div><div class="tm-track"><div class="tm-seg" style="left:81.8%;width:9.1%;background:#e67e22;">스팟4</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: 스토리보드 수정 -->
+<div id="tab-storyboard" class="section">
+  <div class="section-title">스토리보드 수정 요청사항</div>
+  <div class="alert">📋 <strong>260510 기준</strong> — 오늘(5.10) 전달된 수정 요청사항 6건입니다. 최신 스토리보드(260509)에 반영이 필요합니다.</div>
+  <div class="sb-item">
+    <div class="sb-num">CUT 2번</div>
+    <div class="sb-change">
+      <div class="sb-from"><div class="sb-type">자막 (기존)</div>'교통 문제를 교통 혁신으로'</div>
+      <div class="sb-arrow">→</div>
+      <div class="sb-to"><div class="sb-type">자막 (수정)</div>'언제나 흔들림 없이 걸어왔습니다'</div>
+    </div>
+  </div>
+  <div class="sb-item">
+    <div class="sb-num">CUT 5번</div>
+    <div class="sb-change">
+      <div class="sb-from"><div class="sb-type">설명 (기존)</div>'첨단 상업지구'</div>
+      <div class="sb-arrow">→</div>
+      <div class="sb-to"><div class="sb-type">설명 (수정)</div>'첨단 산업지구'</div>
+    </div>
+  </div>
+  <div class="sb-item">
+    <div class="sb-num">CUT 5·6·7번</div>
+    <div class="sb-change">
+      <div class="sb-from"><div class="sb-type">자막 (기존)</div>'기술격차를 – K-반도체 클러스터로'</div>
+      <div class="sb-arrow">→</div>
+      <div class="sb-to"><div class="sb-type">자막 (수정안)</div>1안) '반도체 초격차를'<br>2안) '초격차 기술을'</div>
+    </div>
+  </div>
+  <div class="sb-item">
+    <div class="sb-num">CUT 15번</div>
+    <div class="sb-change">
+      <div class="sb-from"><div class="sb-type">자막·대사 (기존)</div>'저 추미애가 문제를 해결하겠습니다'</div>
+      <div class="sb-arrow">→</div>
+      <div class="sb-to"><div class="sb-type">자막·대사 (수정)</div>'추진력의 추미애가 해결하겠습니다'</div>
+    </div>
+  </div>
+  <div class="sb-item">
+    <div class="sb-num">CUT 19번</div>
+    <div class="sb-change">
+      <div class="sb-from"><div class="sb-type">배경 (기존)</div>아파트 놀이터</div>
+      <div class="sb-arrow">→</div>
+      <div class="sb-to"><div class="sb-type">배경 (수정)</div>돌봄시설<br><span style="font-size:11px;opacity:.7;">(어린이집, 다함께 돌봄센터, 가족센터, 문화시설 등)</span></div>
+    </div>
+  </div>
+  <div class="sb-item">
+    <div class="sb-num">CUT 22번</div>
+    <div class="sb-change">
+      <div class="sb-from"><div class="sb-type">자막·대사 (기존)</div>"검증된 경험과 추진력으로, 경기도민의 걱정을 해결하겠습니다"</div>
+      <div class="sb-arrow">→</div>
+      <div class="sb-to"><div class="sb-type">자막·대사 (수정)</div>"해본 사람, 해낸 사람입니다. 경기도의 걱정을 해결하겠습니다"</div>
+    </div>
+  </div>
+  <hr class="divider">
+  <div class="section-title">CF 콘셉트</div>
+  <div class="concept-card">
+    <div class="concept-tag">KEY CONCEPT — A안 (채택)</div>
+    <div class="concept-headline">"추미애가 출발합니다.<br>당당한 경기, 지금은 추미애"</div>
+    <div class="concept-desc">단아한 정장 차림에 운동화를 신은 추미애 후보가 신발끈을 단단히 묶고 출발하는 모습에서 시작. 카메라가 zoom out되며 시장·거리·학교 등 일상적 공간을 활기차게 걸어다니며 도민들과 소통하는 장면을 보여줌. <span style="color:var(--accent);">#밝고경쾌 #솔선수범 #당당한여장부</span></div>
+  </div>
+</div>
+
+<!-- TAB: 보조출연자 -->
+<div id="tab-cast" class="section">
+  <div class="section-title">보조출연자 최종 명단 <span style="font-size:12px;color:var(--text3);font-weight:400;margin-left:8px;">260510 확정 · 총 16명</span></div>
+  <div class="cast-grid">
+    <div class="cast-group">
+      <div class="cast-group-header"><div class="cast-group-name">🧑‍🎓 청소년 (3명)</div><div class="cast-group-spot">스팟2 · 10:00 집합</div></div>
+      <div class="cast-member"><div><div class="cast-name">배수훈</div><div class="cast-info">남 · 16세 · 수원 · 자차 (부모님 동행)</div></div><div class="cast-phone">010-9423-3186</div></div>
+      <div class="cast-member"><div><div class="cast-name">김태하</div><div class="cast-info">남 · 16세 · 수원 · 자차 (부모님 동행)</div></div><div class="cast-phone">010-8984-3136</div></div>
+      <div class="cast-member"><div><div class="cast-name">정희수</div><div class="cast-info">여 · 16세 · 안산 · 자차 (부모님 동행)</div></div><div class="cast-phone">010-3105-4359</div></div>
+    </div>
+    <div class="cast-group">
+      <div class="cast-group-header"><div class="cast-group-name">👔 취준생·청년 (4명)</div><div class="cast-group-spot">스팟4 · 16:45 집합</div></div>
+      <div class="cast-member"><div><div class="cast-name">정지예</div><div class="cast-info">여 · 27세 · 성남 · 자차</div></div><div class="cast-phone">010-6591-2585</div></div>
+      <div class="cast-member"><div><div class="cast-name">김민호</div><div class="cast-info">남 · 27세 · 시흥 · 자차</div></div><div class="cast-phone">010-6717-6449</div></div>
+      <div class="cast-member"><div><div class="cast-name">김경덕</div><div class="cast-info">남 · 27세 · 서울 · 대중교통</div></div><div class="cast-phone">010-5368-3482</div></div>
+      <div class="cast-member"><div><div class="cast-name">김신양</div><div class="cast-info">남 · 22세 · 용인 · 대중교통</div></div><div class="cast-phone">010-2419-9862</div></div>
+    </div>
+    <div class="cast-group">
+      <div class="cast-group-header"><div class="cast-group-name">👴 시니어 (3명)</div><div class="cast-group-spot">스팟1 · 08:30 집합</div></div>
+      <div class="cast-member"><div><div class="cast-name">최병재</div><div class="cast-info">남 · 60대 · 이천 · 자차</div></div><div class="cast-phone">010-5446-6724</div></div>
+      <div class="cast-member"><div><div class="cast-name">심덕구</div><div class="cast-info">남 · 성남 · 대중교통</div></div><div class="cast-phone">010-5327-4110</div></div>
+      <div class="cast-member"><div><div class="cast-name">송복례</div><div class="cast-info">여 · 73세 · 성남 · 대중교통</div></div><div class="cast-phone">010-3661-7002</div></div>
+    </div>
+    <div class="cast-group">
+      <div class="cast-group-header"><div class="cast-group-name">💑 신혼부부 (1팀)</div><div class="cast-group-spot">스팟3 · 14:30 집합</div></div>
+      <div class="cast-member"><div><div class="cast-name">최민상 부부</div><div class="cast-info">30대 · 부평 · 자차</div></div><div class="cast-phone">010-7640-3549</div></div>
+    </div>
+    <div class="cast-group">
+      <div class="cast-group-header"><div class="cast-group-name">🏪 상인 (3명)</div><div class="cast-group-spot">스팟3 · 13:00 집합</div></div>
+      <div class="cast-member"><div><div class="cast-name">김인하</div><div class="cast-info">여 · 50대 · 못골시장 · 도보</div></div><div class="cast-phone">010-8586-2496</div></div>
+      <div class="cast-member"><div><div class="cast-name">김봉영</div><div class="cast-info">남 · 50대 · 못골시장 · 도보</div></div><div class="cast-phone">010-9060-0252</div></div>
+      <div class="cast-member"><div><div class="cast-name">민은기</div><div class="cast-info">남 · 50대 · 못골시장 · 도보</div></div><div class="cast-phone">010-3728-4708</div></div>
+    </div>
+    <div class="cast-group">
+      <div class="cast-group-header"><div class="cast-group-name">👨‍👩‍👧 가족 (1팀)</div><div class="cast-group-spot">스팟3 · 15:30 집합</div></div>
+      <div class="cast-member"><div><div class="cast-name">이상민 부부</div><div class="cast-info">부부+아이 · 인천 · 자차 (14시 출발)</div></div><div class="cast-phone">010-3305-1120</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: 문서함 -->
+<div id="tab-docs" class="section">
+  <div class="section-title">📁 최종자료</div>
+  <div class="docs-grid" style="margin-bottom:28px;">
+    <div class="doc-item"><div class="doc-icon pdf">📄</div><div class="doc-meta"><div class="doc-name">촬영계획표 1회차 (5.12 미사호수공원)</div><div class="doc-sub">최종자료 / 추미애 경기도지사 후보_촬영계획표_1회차.pdf</div></div><span class="doc-badge new">D-2</span></div>
+    <div class="doc-item"><div class="doc-icon pdf">📄</div><div class="doc-meta"><div class="doc-name">촬영계획표 2회차 (5.14 수원)</div><div class="doc-sub">최종자료 / 추미애 경기도지사 후보_촬영계획표_2회차.pdf</div></div><span class="doc-badge new">D-4</span></div>
+    <div class="doc-item"><div class="doc-icon pdf">📋</div><div class="doc-meta"><div class="doc-name">TV광고 스토리보드 v2 (최신)</div><div class="doc-sub">최종자료 / 260509-추후보_TV광고 스토리보드.pdf</div></div><span class="doc-badge">최신</span></div>
+    <div class="doc-item"><div class="doc-icon pdf">✏️</div><div class="doc-meta"><div class="doc-name">스토리보드 수정 요청사항 (0510)</div><div class="doc-sub">최종자료 / 260510 스토리보드 수정 요청사항.pdf</div></div><span class="doc-badge new">NEW</span></div>
+    <div class="doc-item"><div class="doc-icon pdf">🎭</div><div class="doc-meta"><div class="doc-name">보조출연자 최종정보 (0510)</div><div class="doc-sub">최종자료 / 추미애후보_CF보조출연자_최종정보_0510.pdf</div></div><span class="doc-badge new">확정</span></div>
+    <div class="doc-item"><div class="doc-icon video">🎬</div><div class="doc-meta"><div class="doc-name">프리비즈 영상</div><div class="doc-sub">최종자료 / 추후보CF_PREVIS.m4v</div></div><span class="doc-badge">영상</span></div>
+  </div>
+  <div class="section-title">📂 문서자료</div>
+  <div class="docs-grid" style="margin-bottom:28px;">
+    <div class="doc-item"><div class="doc-icon pdf">💡</div><div class="doc-meta"><div class="doc-name">CF기획안 (260421) — A안·B안</div><div class="doc-sub">문서자료 / [21그램]260421_CF기획안.pdf</div></div><span class="doc-badge">기획</span></div>
+    <div class="doc-item"><div class="doc-icon pdf">📐</div><div class="doc-meta"><div class="doc-name">스토리보드 (260501 최종본)</div><div class="doc-sub">문서자료 / [21그램]260501_스토리보드.pdf</div></div><span class="doc-badge">참고</span></div>
+    <div class="doc-item"><div class="doc-icon pdf">🗺️</div><div class="doc-meta"><div class="doc-name">헌팅리포트 (하남)</div><div class="doc-sub">문서자료 / 헌팅리포트(하남).pdf</div></div><span class="doc-badge">로케</span></div>
+    <div class="doc-item"><div class="doc-icon pdf">📰</div><div class="doc-meta"><div class="doc-name">(대외용) 추미애 홍보 기획</div><div class="doc-sub">문서자료 / (대외용) 추미애 홍보 기획.pdf</div></div><span class="doc-badge">홍보</span></div>
+    <div class="doc-item"><div class="doc-icon doc">📝</div><div class="doc-meta"><div class="doc-name">회의록 추미애CF (0430)</div><div class="doc-sub">회의록_추미애CF_0430.docx / .pdf</div></div><span class="doc-badge">회의</span></div>
+    <div class="doc-item"><div class="doc-icon doc">🗺️</div><div class="doc-meta"><div class="doc-name">로케이션 1차 정리</div><div class="doc-sub">로케이션 / 로케이션_1차정리.pptx</div></div><span class="doc-badge">로케</span></div>
+  </div>
+</div>
+
+</div>
+<script>
+function showTab(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
