@@ -13,7 +13,7 @@
   .header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;}
   .badge-21g{background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;letter-spacing:.05em;}
   .header-title{font-size:22px;font-weight:900;color:#fff;letter-spacing:-.02em;}
-  .header-sub{font-size:12px;color:var(--text2);margin-top:3px;font-weight:400;}
+  .header-sub{font-size:12px;color:var(--text2);margin-top:3px;font-weight:400;line-height:1.7;}
   .today-label{font-size:11px;color:var(--text3);font-weight:500;margin-bottom:2px;}
   .today-date{font-size:15px;font-weight:700;color:var(--text2);}
   .stats-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 40px;}
@@ -23,8 +23,9 @@
   .stat-value{font-size:32px;font-weight:900;line-height:1;margin-bottom:6px;}
   .stat-value.red{color:var(--accent2)}.stat-value.blue{color:var(--accent)}.stat-value.gold{color:var(--gold)}.stat-value.green{color:var(--green)}
   .stat-label{font-size:11px;color:var(--text3);font-weight:500;letter-spacing:.05em;}
-  .tabs-wrap{background:var(--surface);border-bottom:1px solid var(--border);padding:0 40px;}
-  .tabs-inner{max-width:1200px;margin:0 auto;display:flex;}
+  .tabs-wrap{background:var(--surface);border-bottom:1px solid var(--border);padding:0 40px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .tabs-wrap::-webkit-scrollbar{display:none;}
+  .tabs-inner{max-width:1200px;margin:0 auto;display:flex;min-width:max-content;}
   .tab-btn{padding:14px 22px;font-size:13px;font-weight:600;color:var(--text3);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;transition:all .2s;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;}
   .tab-btn:hover{color:var(--text2)}.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
   .main{max-width:1200px;margin:0 auto;padding:32px 40px 60px;}
@@ -56,6 +57,7 @@
   .info-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:13px;}
   .info-key{color:var(--text3);font-weight:600;min-width:60px;flex-shrink:0;}
   .info-val{color:var(--text);}
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
   .spot-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:12px;}
   .spot-table th{background:var(--surface3);color:var(--text3);font-weight:600;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);}
   .spot-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;}
@@ -126,12 +128,83 @@
   .crew-role{font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.08em;margin-bottom:6px;}
   .crew-name{font-size:15px;font-weight:700;color:var(--text);}
   .alert{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.3);border-radius:8px;padding:12px 16px;font-size:12px;color:var(--gold);margin-bottom:20px;display:flex;gap:10px;align-items:flex-start;}
+  @media (max-width:1024px){
+    .header,.stats-bar,.tabs-wrap,.main{padding-left:24px;padding-right:24px;}
+    .shoot-info-grid{grid-template-columns:1fr !important;}
+    .crew-grid,.cast-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  }
+  @media (max-width:768px){
+    .header{padding:22px 18px 18px;position:static;}
+    .header-inner{flex-direction:column;align-items:flex-start;gap:14px;}
+    .header-main{width:100%;}
+    .header-title{font-size:18px;line-height:1.35;}
+    .header-sub{font-size:11px;}
+    .header-date{width:100%;display:flex;justify-content:space-between;align-items:flex-end;text-align:left!important;}
+    .today-date{font-size:14px;}
+    .stats-bar{padding:0 18px;}
+    .stats-inner{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .stat{padding:16px 12px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
+    .stat:nth-child(2n){border-right:none;}
+    .stat:nth-last-child(-n+2){border-bottom:none;}
+    .stat-value{font-size:28px;}
+    .tabs-wrap{padding:0 12px;}
+    .tab-btn{padding:14px 14px;font-size:12px;}
+    .main{padding:24px 18px 48px;}
+    .section-title{font-size:15px;margin-bottom:16px;}
+    .alert{padding:11px 12px;font-size:11px;line-height:1.7;}
+    .timeline{padding-left:18px;}
+    .timeline::before{left:5px;}
+    .tl-item{display:block;margin-bottom:14px;}
+    .tl-dot{left:-14px;top:5px;}
+    .tl-date{display:block;min-width:0;margin-bottom:8px;font-size:11px;padding-top:0;}
+    .tl-card{padding:12px 14px;}
+    .shoot-topline{flex-direction:column;align-items:flex-start!important;gap:10px;}
+    .shoot-header{flex-direction:column;align-items:flex-start;gap:14px;}
+    .shoot-sun{width:100%;display:flex;justify-content:space-between;align-items:flex-end;text-align:left!important;}
+    .shoot-date-big{font-size:18px;line-height:1.35;}
+    .shoot-body{padding:16px;}
+    .info-row{font-size:12px;margin-bottom:8px;}
+    .info-key{min-width:54px;}
+    .table-scroll .spot-table{min-width:640px;}
+    .timetable-header{padding:14px 16px;font-size:12px;}
+    .timetable-body{padding:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .timetable-body .tm-hours,.timetable-body .tm-row{min-width:560px;}
+    .tm-hours{padding-left:86px;}
+    .tm-label{min-width:74px;font-size:11px;}
+    .sb-item{padding:12px 14px;}
+    .sb-change{flex-direction:column;gap:10px;}
+    .sb-arrow{padding-top:0;align-self:center;transform:rotate(90deg);}
+    .crew-grid,.cast-grid,.docs-grid,.docs-grid.primary-docs{grid-template-columns:1fr;}
+    .cast-group-header{flex-direction:column;align-items:flex-start;gap:4px;}
+    .cast-member{flex-direction:column;align-items:flex-start;gap:6px;}
+    .contact-row{flex-direction:column;align-items:flex-start;gap:4px;padding:12px 14px;}
+    .contact-role,.contact-name{min-width:0;}
+    .concept-card{padding:18px;}
+    .concept-headline{font-size:18px;}
+    .doc-item.featured{min-height:0;padding:18px;}
+    .doc-item.featured .doc-icon{width:48px;height:48px;font-size:24px;}
+  }
+  @media (max-width:480px){
+    .badge-21g{font-size:10px;padding:4px 8px;}
+    .header-title{font-size:17px;}
+    .header-sub{font-size:10px;}
+    .stats-bar{padding:0 12px;}
+    .tabs-wrap{padding:0 8px;}
+    .main{padding:20px 12px 40px;}
+    .stat{padding:14px 8px;}
+    .stat-value{font-size:24px;}
+    .stat-label{font-size:10px;}
+    .tab-btn{padding:12px 12px;}
+    .shoot-loc{font-size:11px;}
+    .doc-item.featured .doc-name{font-size:14px;}
+    .doc-item.featured .doc-sub{font-size:11px;}
+  }
 </style>
 </head>
 <body>
 <div class="header">
   <div class="header-inner">
-    <div style="display:flex;align-items:center;gap:18px;">
+    <div class="header-main" style="display:flex;align-items:center;gap:18px;">
       <div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
           <span class="badge-21g">21Grams</span>
@@ -141,7 +214,7 @@
         <div class="header-sub">감독 이성래 &nbsp;|&nbsp; 프로듀서 장재진 &nbsp;|&nbsp; 제작 21그램</div>
       </div>
     </div>
-    <div style="text-align:right;">
+    <div class="header-date" style="text-align:right;">
       <div class="today-label">오늘</div>
       <div class="today-date">2026. 05. 10 (일)</div>
     </div>
@@ -258,7 +331,7 @@
 
 <!-- TAB: 1회차 -->
 <div id="tab-shoot1" class="section">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+  <div class="shoot-topline" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
     <div class="section-title" style="margin-bottom:0;">1회차 촬영 계획</div>
     <span class="shoot-dday">D-2</span>
   </div>
@@ -269,10 +342,10 @@
         <div class="shoot-date-big">2026년 5월 12일 (화)</div>
         <div class="shoot-loc">📍 미사호수공원 · 경기도 하남시 미사강변대로 150</div>
       </div>
-      <div style="text-align:right;"><div style="font-size:11px;color:var(--text3);margin-bottom:6px;">일출/일몰</div><div style="font-size:13px;color:var(--text2);font-weight:600;">05:30 / 19:25</div></div>
+      <div class="shoot-sun" style="text-align:right;"><div style="font-size:11px;color:var(--text3);margin-bottom:6px;">일출/일몰</div><div style="font-size:13px;color:var(--text2);font-weight:600;">05:30 / 19:25</div></div>
     </div>
     <div class="shoot-body">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div class="shoot-info-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <div>
           <div class="info-row"><span class="info-key">집합</span><span class="info-val">12:00 · 미사강변 주차장 (2시간 무료)</span></div>
           <div class="info-row"><span class="info-key">셋팅</span><span class="info-val">13:00</span></div>
@@ -295,6 +368,7 @@
   </div>
   <div class="section-title">촬영 스팟</div>
   <div class="shoot-card-main" style="margin-bottom:24px;">
+    <div class="table-scroll">
     <table class="spot-table">
       <thead><tr><th>스팟</th><th>내용</th><th>시간대</th><th>등장인물</th><th>장소</th></tr></thead>
       <tbody>
@@ -302,6 +376,7 @@
         <tr><td>스팟 2</td><td>추미애 후보 단독<br>주택지구 배경</td><td>D / L</td><td>추미애 후보</td><td>미사호수공원 스팟2</td></tr>
       </tbody>
     </table>
+    </div>
   </div>
   <div class="timetable-wrap">
     <div class="timetable-header">⏱️ 타임테이블 — 5월 12일 (화)</div>
@@ -320,7 +395,7 @@
 
 <!-- TAB: 2회차 -->
 <div id="tab-shoot2" class="section">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+  <div class="shoot-topline" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
     <div class="section-title" style="margin-bottom:0;">2회차 촬영 계획</div>
     <span class="shoot-dday" style="background:var(--accent);">D-4</span>
   </div>
@@ -331,10 +406,10 @@
         <div class="shoot-date-big">2026년 5월 14일 (목)</div>
         <div class="shoot-loc">📍 수원 — 광교호수공원 · 버스정류장 · 못골시장 · 삼성디지털시티</div>
       </div>
-      <div style="text-align:right;"><div style="font-size:11px;color:var(--text3);margin-bottom:6px;">일출/일몰</div><div style="font-size:13px;color:var(--text2);font-weight:600;">05:30 / 19:25</div></div>
+      <div class="shoot-sun" style="text-align:right;"><div style="font-size:11px;color:var(--text3);margin-bottom:6px;">일출/일몰</div><div style="font-size:13px;color:var(--text2);font-weight:600;">05:30 / 19:25</div></div>
     </div>
     <div class="shoot-body">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div class="shoot-info-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <div>
           <div class="info-row"><span class="info-key">집합</span><span class="info-val">08:00 · 조식 포함</span></div>
           <div class="info-row"><span class="info-key">스팟1</span><span class="info-val">09:00~ 광교호수공원 (시니어)</span></div>
@@ -353,6 +428,7 @@
   </div>
   <div class="section-title">촬영 스팟 상세</div>
   <div class="shoot-card-main" style="margin-bottom:24px;">
+    <div class="table-scroll">
     <table class="spot-table">
       <thead><tr><th>스팟</th><th>장소</th><th>주소</th><th>배역</th><th>시간</th></tr></thead>
       <tbody>
@@ -362,6 +438,7 @@
         <tr><td>스팟 4</td><td>삼성디지털시티 정문</td><td>수원시 영통구 삼성로 130</td><td>취준생 4명<br><span style="font-size:10px;color:var(--text3);">정지예·김민호·김경덕·김신양</span></td><td>17:00~<br>집합 16:45</td></tr>
       </tbody>
     </table>
+    </div>
   </div>
   <div class="timetable-wrap">
     <div class="timetable-header">⏱️ 타임테이블 — 5월 14일 (목)</div>
